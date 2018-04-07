@@ -1,4 +1,57 @@
-// TODO: make a new router for the tigers resource
-// and make some REST routes for it, exactly like for lions
-// make a middleware that just logs the word 'tiger' to the console
-// when a request comes in to the server
+var _ = require('lodash');
+var tigerRouter = require('express').Router();
+
+var tiger = [];
+var id = 0;
+
+var updateID = function(req, res, next){
+  if(!req.body.id){
+    id++;
+    req.body.id = String(id);
+  }
+  next();
+};
+
+tigerRouter.param('id', function(req, res, next, id){
+  var tiger = _.find(tiger, {id: id});
+
+  if(tiger){
+    req.tiger = tiger;
+    next();
+  } else {
+    res.send();
+  }
+});
+
+
+tigerRouter.route('/')
+  .get(function(req, res){
+    res.json(tiger);
+  })
+  .post(updateID, function(req, res){
+    var tiger = req.body;
+    tigers.push(tiger);
+    res.json(tiger);
+  });
+
+tigerRouter.route('/:id')
+  .get(function(req, res){
+    var tiger = req.tiger;
+    res.json(tiger || {});
+  })
+  .put(function(req, res){
+    var update = req.body;
+    if(update.id){
+      delete update.id;
+    }
+
+    var tiger = _.findIndex(tigers, {id: req.params.id});
+    if(!tigers[tiger]){
+      res.send();
+    } else {
+      var updatedTiger = _.assign(tigers[tiger], update);
+      res.json(updatesLion);
+    }
+  });
+
+module.exports = tigerRouter;
