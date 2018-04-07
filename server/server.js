@@ -22,7 +22,7 @@ var updateId = function(req, res, next) {
   // fill this out. this is the route middleware for the ids
 };
 
-app.use(morgan('dev'))
+app.use(morgan('dev'));
 app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -31,6 +31,7 @@ app.use(bodyParser.json());
 app.param('id', function(req, res, next, id) {
   // fill this out to find the lion based off the id
   // and attach it to req.lion. Rember to call next()
+
 });
 
 app.get('/lions', function(req, res){
@@ -54,7 +55,7 @@ app.post('/lions', updateId, function(req, res) {
 app.put('/lions/:id', function(req, res) {
   var update = req.body;
   if (update.id) {
-    delete update.id
+    delete update.id;
   }
 
   var lion = _.findIndex(lions, {id: req.params.id});
